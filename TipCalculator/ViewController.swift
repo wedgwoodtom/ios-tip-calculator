@@ -20,35 +20,24 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
         costTextField.text = ""
         totalCostTextField.text = ""
         
-        // TODO: fix this
-        selectedTipPercent.text = "15"
-        percentSlider.value = 15
+        percentSlider.value = tipPercent
+        selectedTipPercent.text = "\(tipPercent) %"
         
+        costTextField.becomeFirstResponder()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
  
-    
     @IBAction func costFieldChanged(_ sender: UITextField) {
-        
-        // convert string to float
-//        mealCost = NumberFormatter().number(from: sender.text!)!.floatValue
-        
-//        do {
-//            mealCost = Float(sender.text!)!
-//        } catch {
-//            mealCost = nil
-//        }
-        
-        
         guard sender.text?.isEmpty == false else {
+            mealCost = nil
+            totalCostTextField.text = ""
             return
         }
 
@@ -58,7 +47,7 @@ class ViewController: UIViewController {
     
     @IBAction func tipSliderChanged(_ sender: UISlider) {
         tipPercent = round(sender.value)
-        selectedTipPercent.text = "\(Int(tipPercent))"
+        selectedTipPercent.text = "\(Int(tipPercent)) %"
         updateFinalCost()
     }
     
@@ -68,9 +57,7 @@ class ViewController: UIViewController {
             return
         }
         
-        let twoDecimalPlaces = String(format: "%.2f", finalCost())
-        totalCostTextField.text = twoDecimalPlaces
-//        totalCostTextField.text = "\(finalCost())"
+        totalCostTextField.text = "$ " + String(format: "%.2f", finalCost())
     }
     
     func finalCost() -> Float {
